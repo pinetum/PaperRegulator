@@ -1,0 +1,11 @@
+Debug/.d
+Debug/main.cpp.o
+Debug/main.cpp.o.d
+Debug/MainDialog.cpp.o
+Debug/MainDialog.cpp.o.d
+Debug/PaperRegulator
+Debug/wxcrafter.cpp.o
+Debug/wxcrafter.cpp.o.d
+Debug/wxcrafter_bitmaps.cpp.o
+PaperRegulator.mk
+PaperRegulator.txt
