@@ -22,17 +22,18 @@
 class MainDialogBaseClass : public wxDialog
 {
 protected:
-    wxRichTextCtrl* m_richTextCtrl22;
-    wxStaticLine* m_staticLine15;
-    wxButton* m_buttonOK;
-    wxButton* m_buttonCancel;
-	wxWebView *m_webView;
-
+    wxRichTextCtrl* 	m_richTextCtrl22;
+    wxStaticLine* 		m_staticLine15;
+    wxButton* 			m_buttonOK;
+    wxButton* 			m_buttonCancel;
+	wxButton* 			m_buttonScan;
+	wxWebView *			m_webView;
+	
 protected:
     virtual void OnTextUpdate(wxCommandEvent& event) { event.Skip(); }
     virtual void OnContentInserted(wxRichTextEvent& event) { event.Skip(); }
     virtual void OnBtnGOClick(wxCommandEvent& event) { event.Skip(); }
-
+	virtual void OnBtnScanClick(wxCommandEvent& event) { event.Skip(); }
 public:
     MainDialogBaseClass(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("My Dialog"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(500,300), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
     virtual ~MainDialogBaseClass();
