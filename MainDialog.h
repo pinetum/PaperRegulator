@@ -8,6 +8,7 @@ public:
     MainDialog(wxWindow* parent);
     virtual ~MainDialog();
 	wxString transData;
+    wxString last_transData;
 	wxTimer* m_timer;
 	bool m_b_scanning;
 protected:

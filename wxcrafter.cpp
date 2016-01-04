@@ -27,10 +27,15 @@ MainDialogBaseClass::MainDialogBaseClass(wxWindow* parent, wxWindowID id, const 
     this->SetSizer(mainSizer);
     
     m_richTextCtrl22 = new wxRichTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1,-1), wxTE_MULTILINE|wxTE_PROCESS_TAB|wxTE_PROCESS_ENTER|wxWANTS_CHARS);
-    m_webView		 = wxWebView::New(this, wxID_ANY, _("https://translate.google.com.tw/?oe=UTF-8&ie=UTF-8&hl=zh-TW&client=tw-ob#en/zh-TW/"));
-	
+    
     mainSizer->Add(m_richTextCtrl22, 1, wxALL|wxEXPAND, 5);
-    mainSizer->Add(m_webView, 7, wxALL|wxEXPAND, 5);
+    
+    #if wxUSE_WEBVIEW
+    m_webView = wxWebView::New(this, wxID_ANY, _("about:blank"), wxDefaultPosition, wxSize(-1,-1), wxWebViewBackendDefault, 0);
+    
+    mainSizer->Add(m_webView, 10, wxALL|wxEXPAND, 5);
+    #endif // wxUSE_WEBVIEW
+    
     m_staticLine15 = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxSize(-1,-1), wxLI_HORIZONTAL);
     
     mainSizer->Add(m_staticLine15, 0, wxALL|wxEXPAND, 5);
@@ -40,23 +45,41 @@ MainDialogBaseClass::MainDialogBaseClass(wxWindow* parent, wxWindowID id, const 
     mainSizer->Add(boxSizer12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     
     m_buttonOK = new wxButton(this, wxID_OK, _("go"), wxDefaultPosition, wxSize(-1,-1), 0);
-	m_buttonScan = new wxButton(this, wxID_OK, _("Scan:On"), wxDefaultPosition, wxSize(-1,-1), 0);
     m_buttonOK->SetDefault();
     
     boxSizer12->Add(m_buttonOK, 0, wxALL, 5);
+    
+    m_buttonScan = new wxButton(this, wxID_ANY, _("Scan"), wxDefaultPosition, wxSize(-1,-1), 0);
+    
     boxSizer12->Add(m_buttonScan, 0, wxALL, 5);
+    
     m_buttonCancel = new wxButton(this, wxID_CANCEL, _("Exit"), wxDefaultPosition, wxSize(-1,-1), 0);
     
     boxSizer12->Add(m_buttonCancel, 0, wxALL, 5);
     
+    SetName(wxT("MainDialogBaseClass"));
     SetSizeHints(500,300);
-    if ( GetSizer() ) {
+    if (GetSizer()) {
          GetSizer()->Fit(this);
     }
-    Centre(wxBOTH);
+    if(GetParent()) {
+        CentreOnParent(wxBOTH);
+    } else {
+        CentreOnScreen(wxBOTH);
+    }
+#if wxVERSION_NUMBER >= 2900
+    if(!wxPersistenceManager::Get().Find(this)) {
+        wxPersistenceManager::Get().RegisterAndRestore(this);
+    } else {
+        wxPersistenceManager::Get().Restore(this);
+    }
+#endif
     // Connect events
     m_richTextCtrl22->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MainDialogBaseClass::OnTextUpdate), NULL, this);
     m_richTextCtrl22->Connect(wxEVT_COMMAND_RICHTEXT_CONTENT_INSERTED, wxRichTextEventHandler(MainDialogBaseClass::OnContentInserted), NULL, this);
+    #if wxUSE_WEBVIEW
+    
+    #endif // wxUSE_WEBVIEW
     m_buttonOK->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainDialogBaseClass::OnBtnGOClick), NULL, this);
     m_buttonScan->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainDialogBaseClass::OnBtnScanClick), NULL, this);
     
@@ -66,6 +89,10 @@ MainDialogBaseClass::~MainDialogBaseClass()
 {
     m_richTextCtrl22->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(MainDialogBaseClass::OnTextUpdate), NULL, this);
     m_richTextCtrl22->Disconnect(wxEVT_COMMAND_RICHTEXT_CONTENT_INSERTED, wxRichTextEventHandler(MainDialogBaseClass::OnContentInserted), NULL, this);
+    #if wxUSE_WEBVIEW
+    
+    #endif // wxUSE_WEBVIEW
     m_buttonOK->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainDialogBaseClass::OnBtnGOClick), NULL, this);
+    m_buttonScan->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainDialogBaseClass::OnBtnScanClick), NULL, this);
     
 }

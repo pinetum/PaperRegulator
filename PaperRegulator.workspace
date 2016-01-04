@@ -2,11 +2,14 @@
 <CodeLite_Workspace Name="PaperRegulator" Database="">
   <Project Name="PaperRegulator" Path="PaperRegulator.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Project Name="PaperRegulator" ConfigName="Debug"/>
     </WorkspaceConfiguration>
     <WorkspaceConfiguration Name="Release" Selected="no">
       <Project Name="PaperRegulator" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Windows" Selected="yes">
+      <Project Name="PaperRegulator" ConfigName="Windows"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

@@ -11,10 +11,11 @@ MainDialog::MainDialog(wxWindow* parent)
 	SetSize(750, 600);
 	Center();
 	transData ="";
+    last_transData="";
 	SetTitle("PaperRegulator");
 	m_timer = new wxTimer(this,-1);
 	Bind(wxEVT_TIMER, &MainDialog::OnTimer,this);
-	m_timer->Start(3000);
+	m_timer->Start(300);
 	m_b_scanning = true;
 }
 
@@ -50,11 +51,14 @@ void MainDialog::OnBtnGOClick(wxCommandEvent& event)
 }
 void MainDialog::OnContentInserted(wxRichTextEvent& event)
 {
+    if(last_transData == transData)
+        return;
+    last_transData = transData;
 	wxString str_url = "https://translate.google.com.tw/?oe=UTF-8&ie=UTF-8&hl=zh-TW&client=tw-ob#en/zh-TW/";
 	str_url.Append(transData);
 	wxURI url (str_url);
 	str_url = url.BuildURI();
-	m_webView->LoadURL(str_url);
+    m_webView->LoadURL(str_url);
 	
 	//wxLaunchDefaultBrowser(str_url);
 	
